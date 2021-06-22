@@ -79,16 +79,24 @@
           //   favoriteBooks.push(idImg);
           //   console.log(favoriteBooks);
           // }
+
           if (e.target.offsetParent.classList.contains(links.favoriteImg)) {
             // const idImg = img.getAttribute('data-id');
             img.classList.remove(links.favoriteImg);
+
             const indexOf = this.favoriteBooks.indexOf(idImg);
+
             this.favoriteBooks.splice(indexOf, 1);
+
             console.log(favoriteBooks);
+
           } else if (!(this.favoriteBooks === [])) {
             img.classList.add(links.favoriteImg);
+
             console.log(idImg);
+
             this.favoriteBooks.push(idImg);
+
             console.log(this.favoriteBooks);
           }
         });
