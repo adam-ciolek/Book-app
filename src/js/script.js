@@ -30,6 +30,8 @@
 
       this.getElements();
       this.render();
+      this.favoriteBooks = [];
+      this.filtersArr = [];
       this.initActions();
     }
 
@@ -39,8 +41,6 @@
       this.bookList = document.querySelector(select.containerOf.bookList);
       this.filters = document.querySelector(select.filtersBooks.filters);
       // this.booksList = document.querySelectorAll(select.booksList.bookImage);
-      this.filtersArr = [];
-      this.favoriteBooks = [];
     }
 
     render() {
@@ -59,13 +59,15 @@
     }
 
     initActions() {
-      // const favoriteBooks = [];
-      // const filters = [];
+      // this.favoriteBooks = [];
+      // this.filtersArr = [];
 
       this.booksList = document.querySelectorAll(select.booksList.bookImage);
+      const that = this;
       for (let img of this.booksList) {
         img.addEventListener('dblclick', function (e) {
           e.preventDefault();
+
           const idImg = img.getAttribute('data-id');
 
           // if (favoriteBooks.includes(idImg)) {
@@ -79,25 +81,25 @@
           //   favoriteBooks.push(idImg);
           //   console.log(favoriteBooks);
           // }
-
+          // this.filtersArr
           if (e.target.offsetParent.classList.contains(links.favoriteImg)) {
             // const idImg = img.getAttribute('data-id');
             img.classList.remove(links.favoriteImg);
 
-            const indexOf = this.favoriteBooks.indexOf(idImg);
+            const indexOf = that.favoriteBooks.indexOf(idImg);
 
-            this.favoriteBooks.splice(indexOf, 1);
+            that.favoriteBooks.splice(indexOf, 1);
 
-            console.log(favoriteBooks);
+            // console.log(favoriteBooks);
 
-          } else if (!(this.favoriteBooks === [])) {
+          } else if (!(that.favoriteBooks === [])) {
             img.classList.add(links.favoriteImg);
 
             console.log(idImg);
 
-            this.favoriteBooks.push(idImg);
-
-            console.log(this.favoriteBooks);
+            console.log(that);
+            that.favoriteBooks.push(idImg);
+            // console.log(this.favoriteBooks);
           }
         });
       }
@@ -105,18 +107,18 @@
       this.filters.addEventListener('click', function (e) {
         if (e.target.tagName === 'INPUT' && e.target.type === 'checkbox' && e.target.name === 'filter') {
           // console.log(e.target.value);
+
+          if (e.target.checked) {
+            that.filtersArr.push(e.target.value);
+            // console.log(this.filtersArr);
+
+          } else if (!e.target.checked) {
+            const indexOf = that.filtersArr.indexOf(e.target.value);
+            that.filtersArr.splice(indexOf, 1);
+            // console.log(this.filtersArr);
+          }
+
         }
-
-        if (e.target.checked) {
-          this.filtersArr.push(e.target.value);
-          console.log(this.filtersArr);
-
-        } else if (!e.target.checked) {
-          const indexOf = this.filtersArr.indexOf(e.target.value);
-          this.filtersArr.splice(indexOf, 1);
-          console.log(this.filtersArr);
-        }
-
       });
       this.filterBooks();
     }
