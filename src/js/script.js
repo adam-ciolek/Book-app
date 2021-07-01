@@ -21,9 +21,6 @@
     favoriteImg: 'favorite'
   };
   const template = Handlebars.compile(document.querySelector('#template-book').innerHTML);
-  // const favoriteBooks = [];
-  // const filtersBooks = [];
-
 
   class Books {
     constructor() {
@@ -59,8 +56,6 @@
     }
 
     initActions() {
-      // this.favoriteBooks = [];
-      // this.filtersArr = [];
 
       this.booksList = document.querySelectorAll(select.booksList.bookImage);
       const that = this;
@@ -70,18 +65,6 @@
 
           const idImg = img.getAttribute('data-id');
 
-          // if (favoriteBooks.includes(idImg)) {
-          //   img.classList.remove('favorite');
-          //   const idImg = img.getAttribute('data-id');
-          //   const indexOf = favoriteBooks.indexOf(idImg);
-          //   favoriteBooks.splice(indexOf, 1);
-          // } else if (!(favoriteBooks === [])) {
-          //   img.classList.add('favorite');
-          //   console.log(idImg);
-          //   favoriteBooks.push(idImg);
-          //   console.log(favoriteBooks);
-          // }
-          // this.filtersArr
           if (e.target.offsetParent.classList.contains(links.favoriteImg)) {
             // const idImg = img.getAttribute('data-id');
             img.classList.remove(links.favoriteImg);
@@ -106,45 +89,44 @@
 
       this.filters.addEventListener('click', function (e) {
         if (e.target.tagName === 'INPUT' && e.target.type === 'checkbox' && e.target.name === 'filter') {
-          // console.log(e.target.value);
 
           if (e.target.checked) {
             that.filtersArr.push(e.target.value);
-            // console.log(this.filtersArr);
 
           } else if (!e.target.checked) {
             const indexOf = that.filtersArr.indexOf(e.target.value);
             that.filtersArr.splice(indexOf, 1);
-            // console.log(this.filtersArr);
+
           }
 
         }
+        that.filterBooks();
       });
-      this.filterBooks();
     }
 
     filterBooks() {
 
       for (let element of dataSource.books) {
-
         let shouldBeHidden = false;
 
-        for (let filter of this.filtersArr) {
+
+        for (let filter of Object.keys(this.filters)) {
+
           if (element.details[filter]);
           shouldBeHidden = true;
           break;
-        }
-        const bookId = element.id;
-        const selectedImg = document.querySelector('.book__image[data-id="' + bookId + '"]');
 
-
-        if (shouldBeHidden === true) {
-          selectedImg.classList.add('hidden');
-        }
-        else {
-          selectedImg.classList.remove('hidden');
         }
       }
+      const id = element.id;
+      const selectedImg = document.querySelector('.book__image[data-id="' + id + '"]');
+
+      if (shouldBeHidden) {
+        selectedImg.classList.add('hidden');
+      } else {
+        selectedImg.classList.remove('hidden');
+      }
+
     }
   }
 
